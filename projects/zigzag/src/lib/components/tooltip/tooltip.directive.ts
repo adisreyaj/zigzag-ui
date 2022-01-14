@@ -1,16 +1,6 @@
-import {
-  Directive,
-  ElementRef,
-  HostListener,
-  Inject,
-  Input,
-  NgModule,
-  OnInit,
-  TemplateRef,
-} from '@angular/core';
-import { arrow, computePosition, flip, offset, Placement, shift } from '@floating-ui/dom';
+import { Directive, ElementRef, HostListener, Inject, Input, NgModule } from '@angular/core';
+import { computePosition, flip, offset, Placement, shift } from '@floating-ui/dom';
 import { CommonModule, DOCUMENT } from '@angular/common';
-import { of } from 'rxjs';
 
 @Directive({
   selector: '[zzTooltip]',
@@ -48,11 +38,14 @@ export class TooltipDirective {
   }
 
   private async showTooltip() {
-    if (this.el) this.createToolTip();
+    if (this.el) {
+      this.cleanupTooltips();
+      this.createToolTip();
+    }
     const clientRect = this.el.getBoundingClientRect();
     if (this.el && this.tooltipRef) {
       this.tooltipRef.style.display = 'block';
-      const { x, y, placement } = await computePosition(
+      const { x, y } = await computePosition(
         {
           getBoundingClientRect: () => {
             return clientRect;
@@ -91,6 +84,13 @@ export class TooltipDirective {
     tooltip.id = 'zz-tooltip';
     tooltip.style.display = 'none';
     this.tooltipRef = this.document.body.appendChild(tooltip);
+  }
+
+  private cleanupTooltips() {
+    const tooltips = this.document.querySelectorAll('.tooltip');
+    tooltips.forEach((tooltip) => {
+      tooltip.remove();
+    });
   }
 }
 
