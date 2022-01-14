@@ -3,5 +3,37 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-  }
+    "zigzag": {
+      "projectType": "library",
+      "root": "projects/zigzag",
+      "sourceRoot": "projects/zigzag/src",
+      "prefix": "zz",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/zigzag/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/zigzag/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/zigzag/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/zigzag/src/test.ts",
+            "tsConfig": "projects/zigzag/tsconfig.spec.json",
+            "karmaConfig": "projects/zigzag/karma.conf.js"
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "zigzag"
 }

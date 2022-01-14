@@ -1,0 +1,36 @@
+@import '../../styles/mixins/buttons.mixins';
+
+:host {
+  @apply block font-medium cursor-pointer transition duration-200 ease-in-out;
+}
+
+:host-context(.sm) {
+  @apply px-2 py-1 text-sm;
+}
+
+:host-context(.base) {
+  @apply px-3 py-2;
+}
+
+:host-context(.md) {
+  @apply px-4 py-2 text-base;
+}
+
+:host-context(.lg) {
+  @apply px-4 py-2 text-lg;
+}
+
+:host-context(.primary) {
+  @include buttonBaseStyles('primary', 'primary', 'white');
+}
+
+:host-context(.neutral) {
+  @include buttonBaseStyles('slate-100', 'slate-200', 'slate-700', 'slate-400');
+}
+
+:host-context(.error) {
+  @include buttonBaseStyles('red-500', 'red-600', 'white');
+}
+
+:host-context(.outline) {
+}
