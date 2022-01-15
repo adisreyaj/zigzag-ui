@@ -1,0 +1,7 @@
+.dropdown {
+  @apply shadow-xl opacity-0 scale-75 -translate-y-4;
+
+  &.open {
+    @apply opacity-100 transition-all duration-300 scale-100 translate-y-0;
+  }
+}
