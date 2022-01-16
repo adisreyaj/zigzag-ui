@@ -6,16 +6,8 @@ import { Component, HostBinding, Input, NgModule } from '@angular/core';
   styles: [
     //language=SCSS
     `
-      :host-context(.outline) {
-        @apply border border-slate-400;
-        @apply focus:border-transparent;
-        &:disabled {
-          @apply border-slate-300;
-        }
-      }
-
       :host-context([type='text'], [type='email'], [type='number'], [type='url'], [type='password']) {
-        @apply focus:ring-1 focus:ring-primary;
+        @apply border border-transparent focus:ring-1 focus:ring-primary;
         @apply outline-none p-2;
         @apply focus:border-primary;
         transition: all 0.3s;
@@ -33,8 +25,15 @@ import { Component, HostBinding, Input, NgModule } from '@angular/core';
         @apply text-primary focus:ring-primary;
       }
 
+      :host-context(.outline) {
+        @apply border border-slate-400;
+        &:disabled {
+          @apply border-slate-300;
+        }
+      }
+
       :host-context(.fill) {
-        @apply border-slate-300 bg-slate-100 focus:ring-2;
+        @apply border-slate-200 bg-slate-100 focus:ring-1;
       }
     `,
   ],
