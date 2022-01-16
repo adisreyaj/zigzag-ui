@@ -26,13 +26,13 @@ export class TooltipDirective {
   }
 
   @HostListener('mouseenter')
-  @HostListener('focus')
+  // @HostListener('focus')
   async onMouseEnter() {
     await this.showTooltip();
   }
 
   @HostListener('mouseleave')
-  @HostListener('blur')
+  // @HostListener('blur')
   onMouseLeave() {
     this.hideTooltip();
   }
