@@ -4,19 +4,19 @@
   @apply block font-medium cursor-pointer transition duration-200 ease-in-out;
 }
 
-:host-context(.sm) {
+:host-context(.size-sm) {
   @apply px-2 py-1 text-sm;
 }
 
-:host-context(.base) {
+:host-context(.size-base) {
   @apply px-3 py-2;
 }
 
-:host-context(.md) {
+:host-context(.size-md) {
   @apply px-4 py-2 text-base;
 }
 
-:host-context(.lg) {
+:host-context(.size-lg) {
   @apply px-4 py-2 text-lg;
 }
 
@@ -25,7 +25,7 @@
 }
 
 :host-context(.neutral) {
-  @include buttonBaseStyles('slate-100', 'slate-200', 'slate-700', 'slate-400');
+  @include buttonBaseStyles('slate-100', 'slate-200', 'slate-700', 'slate-500');
 }
 
 :host-context(.error) {
