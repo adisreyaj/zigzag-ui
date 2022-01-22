@@ -1,16 +1,9 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Inject,
-  InjectionToken,
-  Input,
-  NgModule,
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, HostBinding, Inject, InjectionToken, Input, NgModule,} from '@angular/core';
 
 @Component({
   selector: '[zzButton]',
-  template: ` <ng-content></ng-content> `,
+  template: `
+    <ng-content></ng-content> `,
   styleUrls: ['./button.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -21,7 +14,8 @@ export class ButtonComponent {
   @Input()
   size: ButtonSize = 'base';
 
-  constructor(@Inject(BUTTON_CONFIG) private readonly buttonConfig: ButtonGlobalConfig) {}
+  constructor(@Inject(BUTTON_CONFIG) private readonly buttonConfig: ButtonGlobalConfig) {
+  }
 
   @HostBinding('class')
   get classes() {
@@ -44,15 +38,16 @@ export type ButtonVariant =
   imports: [],
   exports: [ButtonComponent],
 })
-export class ButtonModule {}
+export class ButtonModule {
+}
 
 export interface ButtonGlobalConfig {
   rounded: 'sm' | 'md' | 'lg' | 'full';
 }
 
-export const BUTTON_CONFIG = new InjectionToken('Global Button Configuration', {
+export const BUTTON_CONFIG = new InjectionToken<ButtonGlobalConfig>('Global Button Configuration', {
   providedIn: 'root',
   factory: () => ({
-    rounded: 'sm',
+    rounded: 'md',
   }),
 });

@@ -24,6 +24,7 @@
   @include buttonBaseStyles('primary', 'primary', 'white');
 }
 
+
 :host-context(.neutral) {
   @include buttonBaseStyles('slate-100', 'slate-200', 'slate-700', 'slate-500');
 }
