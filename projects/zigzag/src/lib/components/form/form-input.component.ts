@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input, NgModule } from '@angular/core';
+import { Component, HostBinding, Inject, InjectionToken, Input, NgModule } from '@angular/core';
 
 @Component({
   selector: '[zzInput]',
@@ -17,7 +17,7 @@ import { Component, HostBinding, Input, NgModule } from '@angular/core';
         }
 
         &:disabled {
-          @apply text-gray-400 cursor-not-allowed;
+          @apply text-gray-400 cursor-not-allowed opacity-50;
         }
       }
 
@@ -42,9 +42,11 @@ export class FormInputComponent {
   @Input()
   variant: InputVariant = 'outline';
 
+  constructor(@Inject(FORM_INPUT_CONFIG) private readonly formInputConfig: FormInputGlobalConfig) {}
+
   @HostBinding('class')
   get classes() {
-    return `zz-input ${this.variant}`;
+    return `zz-input ${this.variant} rounded-${[this.formInputConfig.rounded]}`;
   }
 }
 
@@ -56,3 +58,17 @@ export type InputVariant = 'outline' | 'fill';
   exports: [FormInputComponent],
 })
 export class FormInputModule {}
+
+export interface FormInputGlobalConfig {
+  rounded: 'sm' | 'md' | 'lg' | 'full';
+}
+
+export const FORM_INPUT_CONFIG = new InjectionToken<FormInputGlobalConfig>(
+  'Global Form Input Configuration',
+  {
+    providedIn: 'root',
+    factory: () => ({
+      rounded: 'md',
+    }),
+  }
+);
