@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { MODAL_DATA } from './modal.component';
 import { DOCUMENT } from '@angular/common';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +27,7 @@ export class ModalService {
     let componentRef: ComponentRef<any>;
     let element: HTMLElement;
     const internalModalRef = new InternalModalRef();
+    const afterClosedSubject = new Subject<unknown>();
     const injector = Injector.create({
       providers: [
         { provide: MODAL_DATA, useValue: options.data ?? null },
@@ -50,23 +52,45 @@ export class ModalService {
     container.classList.add('zz-modal-container');
     container.appendChild(element);
     this.document.body.appendChild(container);
-    internalModalRef.setProps({ element, container, componentRef });
+    const clickListener = () => {
+      internalModalRef.close();
+    };
+    internalModalRef.setProps({
+      element,
+      container,
+      componentRef,
+      clickListener,
+      afterClosedSubject,
+    });
+    const closeButton = this.getCloseButton();
+    closeButton.addEventListener('click', clickListener);
+    element.appendChild(closeButton);
+    return { componentRef, afterClosed$: afterClosedSubject.asObservable() };
+  }
 
-    return componentRef;
+  private getCloseButton() {
+    const button = this.document.createElement('div');
+    button.classList.add('zz-modal-close');
+    button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="m12 10.586 4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"/></svg>`;
+    return button;
   }
 }
 
 export class ModalRef {
-  private readonly element!: HTMLElement;
+  public readonly element!: HTMLElement;
   private readonly container!: HTMLElement;
   private readonly componentRef!: ComponentRef<any>;
+  private readonly clickListener!: () => void;
+  private readonly afterClosedSubject!: Subject<unknown>;
 
   constructor() {}
 
-  close() {
+  close(value?: unknown) {
+    this.element.removeEventListener('click', this.clickListener);
     this.element.remove();
     this.container.remove();
     this.componentRef.destroy();
+    this.afterClosedSubject.next(value);
   }
 }
 
