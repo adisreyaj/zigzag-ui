@@ -8,7 +8,6 @@ import {
   Injector,
   Type,
 } from '@angular/core';
-import { MODAL_DATA } from './modal.component';
 import { DOCUMENT } from '@angular/common';
 import { Subject } from 'rxjs';
 
@@ -23,14 +22,13 @@ export class ModalService {
     @Inject(DOCUMENT) private readonly document: Document
   ) {}
 
-  open(component: Type<any>, options: Partial<ModalOptions<unknown>>) {
+  open<T extends unknown>(component: Type<any>, options: Partial<ModalOptions<T>>) {
     let componentRef: ComponentRef<any>;
     let element: HTMLElement;
-    const internalModalRef = new InternalModalRef();
+    const internalModalRef = new InternalModalRef<T>();
     const afterClosedSubject = new Subject<unknown>();
     const injector = Injector.create({
       providers: [
-        { provide: MODAL_DATA, useValue: options.data ?? null },
         {
           provide: ModalRef,
           useValue: internalModalRef,
@@ -61,6 +59,7 @@ export class ModalService {
       componentRef,
       clickListener,
       afterClosedSubject,
+      data: options.data,
     });
     const closeButton = this.getCloseButton();
     closeButton.addEventListener('click', clickListener);
@@ -76,12 +75,13 @@ export class ModalService {
   }
 }
 
-export class ModalRef {
+export class ModalRef<T = unknown> {
   public readonly element!: HTMLElement;
   private readonly container!: HTMLElement;
   private readonly componentRef!: ComponentRef<any>;
   private readonly clickListener!: () => void;
   private readonly afterClosedSubject!: Subject<unknown>;
+  public readonly data!: T;
 
   constructor() {}
 
@@ -94,7 +94,7 @@ export class ModalRef {
   }
 }
 
-export class InternalModalRef extends ModalRef {
+export class InternalModalRef<T> extends ModalRef<T> {
   setProps(props: any) {
     Object.assign(this, props);
   }
