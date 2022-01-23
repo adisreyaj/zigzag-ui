@@ -13,25 +13,26 @@
 
     &.sm {
       @media screen and (min-width: 768px) {
-        min-width: 350px;
+        width: 350px;
       }
     }
 
     &.md {
       @media screen and (min-width: 768px) {
-        min-width: 500px;
+        width: 500px;
       }
     }
 
     &.lg {
       @media screen and (min-width: 768px) {
-        min-width: 700px;
+        width: 700px;
       }
     }
 
     &-close {
       @apply absolute top-0 right-0 p-1 mt-3 mr-3 cursor-pointer rounded-md;
       @apply hover:bg-slate-200;
+      @apply focus:ring-1 focus:ring-slate-300 focus:bg-slate-200;
     }
   }
 }
