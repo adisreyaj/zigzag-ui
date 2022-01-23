@@ -2,6 +2,7 @@ import {
   Component,
   Directive,
   ElementRef,
+  HostBinding,
   HostListener,
   Input,
   NgModule,
@@ -29,17 +30,15 @@ export class DropdownComponent {
 }
 
 @Component({
-  selector: 'zz-dropdown-item',
-  template: `
-    <li
-      #dropdownItem
-      class="hover:bg-slate-100 px-2 py-1 cursor-pointer rounded-md text-base border border-transparent hover:border-slate-200"
-    >
-      <ng-content></ng-content>
-    </li>
-  `,
+  selector: '[zzDropdownItem]',
+  template: ` <ng-content></ng-content> `,
 })
-export class DropdownItemComponent {}
+export class DropdownItemComponent {
+  @HostBinding('class')
+  get classes() {
+    return 'hover:bg-slate-100 px-2 py-1 cursor-pointer rounded-md text-base border border-transparent hover:border-slate-200';
+  }
+}
 
 @Directive({
   selector: '[zzDropdownTrigger]',
@@ -63,12 +62,16 @@ export class DropdownTriggerDirective {
   @HostListener('document:click', ['$event'])
   onWindowClick(event: MouseEvent) {
     if (this.isOpen && this.dropdownEl && !this.dropdownEl.contains(event.target as Node)) {
-      this.dropdownEl.remove();
-      this.isOpen = false;
-      this.dropdownEl = null;
+      this.close();
     } else if (this.el.contains(event.target as Node)) {
       this.showDropdown();
     }
+  }
+
+  public close() {
+    this.dropdownEl?.remove();
+    this.isOpen = false;
+    this.dropdownEl = null;
   }
 
   ngOnInit() {
@@ -116,8 +119,30 @@ export class DropdownTriggerDirective {
   }
 }
 
+@Directive({
+  selector: '[zzDropdownCloseOnClick]',
+})
+export class DropdownCloseOnClickDirective {
+  @HostListener('click')
+  onClick() {
+    this.dropdownTrigger.close();
+  }
+
+  constructor(private readonly dropdownTrigger: DropdownTriggerDirective) {}
+}
+
 @NgModule({
-  declarations: [DropdownComponent, DropdownItemComponent, DropdownTriggerDirective],
-  exports: [DropdownComponent, DropdownItemComponent, DropdownTriggerDirective],
+  declarations: [
+    DropdownComponent,
+    DropdownItemComponent,
+    DropdownTriggerDirective,
+    DropdownCloseOnClickDirective,
+  ],
+  exports: [
+    DropdownComponent,
+    DropdownItemComponent,
+    DropdownTriggerDirective,
+    DropdownCloseOnClickDirective,
+  ],
 })
 export class DropdownModule {}
