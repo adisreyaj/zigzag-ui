@@ -31,7 +31,8 @@ export class DropdownComponent {
 
 @Component({
   selector: '[zzDropdownItem]',
-  template: ` <ng-content></ng-content> `,
+  template: `
+    <ng-content></ng-content> `,
 })
 export class DropdownItemComponent {
   @HostBinding('class')
@@ -53,7 +54,8 @@ export class DropdownTriggerDirective {
   dropdownEl: HTMLElement | null = null;
   isOpen = false;
 
-  constructor(private readonly vcr: ViewContainerRef, private readonly elRef: ElementRef<any>) {}
+  constructor(private readonly vcr: ViewContainerRef, private readonly elRef: ElementRef<any>) {
+  }
 
   get el(): HTMLElement {
     return this.elRef.nativeElement;
@@ -74,11 +76,6 @@ export class DropdownTriggerDirective {
     this.dropdownEl = null;
   }
 
-  ngOnInit() {
-    setTimeout(() => {
-      console.log(this.dropdown?.dropdown);
-    }, 0);
-  }
 
   private async showDropdown() {
     const clientRect = this.el.getBoundingClientRect();
@@ -89,7 +86,7 @@ export class DropdownTriggerDirective {
       }
       this.dropdownEl.style.minWidth = '8rem';
       document.body.appendChild(this.dropdownEl);
-      const { x, y } = await computePosition(
+      const {x, y} = await computePosition(
         {
           getBoundingClientRect: () => {
             return clientRect;
@@ -128,7 +125,8 @@ export class DropdownCloseOnClickDirective {
     this.dropdownTrigger.close();
   }
 
-  constructor(private readonly dropdownTrigger: DropdownTriggerDirective) {}
+  constructor(private readonly dropdownTrigger: DropdownTriggerDirective) {
+  }
 }
 
 @NgModule({
@@ -145,4 +143,5 @@ export class DropdownCloseOnClickDirective {
     DropdownCloseOnClickDirective,
   ],
 })
-export class DropdownModule {}
+export class DropdownModule {
+}

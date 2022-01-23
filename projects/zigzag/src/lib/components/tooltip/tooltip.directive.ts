@@ -17,9 +17,7 @@ export class TooltipDirective {
   constructor(
     private readonly elRef: ElementRef,
     @Inject(DOCUMENT) private readonly document: Document
-  ) {
-    console.log(this.elRef);
-  }
+  ) {}
 
   get el(): HTMLElement {
     return this.elRef.nativeElement;
