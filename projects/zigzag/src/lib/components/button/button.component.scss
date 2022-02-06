@@ -20,18 +20,20 @@
   @apply px-4 py-2 text-lg;
 }
 
-:host-context(.primary) {
+:host-context(.zz-button-primary) {
   @include buttonBaseStyles('primary', 'primary', 'white');
 }
 
 
-:host-context(.neutral) {
-  @include buttonBaseStyles('slate-100', 'slate-200', 'slate-700', 'slate-500');
+:host-context(.zz-button-neutral) {
+  @include buttonBaseStyles('slate-100', 'slate-200', 'slate-700', 'primary');
 }
 
-:host-context(.error) {
+:host-context(.zz-button-error) {
   @include buttonBaseStyles('red-500', 'red-600', 'white');
 }
 
-:host-context(.outline) {
+:host-context(.zz-button-outline) {
+  @apply border border-slate-300;
+  @include buttonBaseStyles('transparent', 'slate-100', 'slate-700', 'primary');
 }

@@ -2,7 +2,7 @@
   @apply bg-#{$background} text-#{$text};
   &:not(:disabled) {
     @apply hover:bg-#{$background-hover};
-    @apply focus:bg-#{$background-hover} focus:outline-none focus:ring-2 focus:bg-#{$background-hover} focus:ring-offset-2 focus:ring-#{$ring} focus:ring-offset-white;
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-#{$ring} focus:ring-offset-white;
   }
   &:disabled {
     @apply cursor-not-allowed opacity-50;
