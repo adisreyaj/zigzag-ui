@@ -24,7 +24,6 @@
   @include buttonBaseStyles('primary', 'primary', 'white');
 }
 
-
 :host-context(.zz-button-neutral) {
   @include buttonBaseStyles('slate-100', 'slate-200', 'slate-700', 'primary');
 }
@@ -35,5 +34,9 @@
 
 :host-context(.zz-button-outline) {
   @apply border border-slate-300;
+  @include buttonBaseStyles('transparent', 'slate-100', 'slate-700', 'primary');
+}
+
+:host-context(.zz-button-link) {
   @include buttonBaseStyles('transparent', 'slate-100', 'slate-700', 'primary');
 }

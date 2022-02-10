@@ -33,6 +33,7 @@ export class ButtonComponent {
 
 export type ButtonSize = 'sm' | 'base' | 'md' | 'lg';
 export type ButtonVariant =
+  | 'link'
   | 'neutral'
   | 'primary'
   | 'secondary'
