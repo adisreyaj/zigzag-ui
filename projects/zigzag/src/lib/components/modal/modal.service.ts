@@ -22,11 +22,14 @@ export class ModalService {
     @Inject(DOCUMENT) private readonly document: Document
   ) {}
 
-  open<T extends unknown>(component: Type<any>, options: Partial<ModalOptions<T>>) {
+  open<ModalData extends unknown, AfterCloseData extends unknown>(
+    component: Type<any>,
+    options: Partial<ModalOptions<ModalData>>
+  ) {
     let componentRef: ComponentRef<any>;
     let element: HTMLElement;
-    const internalModalRef = new InternalModalRef<T>();
-    const afterClosedSubject = new Subject<unknown>();
+    const internalModalRef = new InternalModalRef<ModalData>();
+    const afterClosedSubject = new Subject<AfterCloseData>();
     const injector = Injector.create({
       providers: [
         {
@@ -77,11 +80,11 @@ export class ModalService {
 
 export class ModalRef<T = unknown> {
   public readonly element!: HTMLElement;
+  public readonly data!: T;
   private readonly container!: HTMLElement;
   private readonly componentRef!: ComponentRef<any>;
   private readonly clickListener!: () => void;
   private readonly afterClosedSubject!: Subject<unknown>;
-  public readonly data!: T;
 
   constructor() {}
 
