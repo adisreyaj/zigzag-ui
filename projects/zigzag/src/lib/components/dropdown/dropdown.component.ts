@@ -6,6 +6,7 @@ import {
   HostListener,
   Input,
   NgModule,
+  OnDestroy,
   TemplateRef,
   ViewChild,
   ViewContainerRef,
@@ -43,7 +44,7 @@ export class DropdownItemComponent {
 @Directive({
   selector: '[zzDropdownTrigger]',
 })
-export class DropdownTriggerDirective {
+export class DropdownTriggerDirective implements OnDestroy {
   @Input('zzDropdownTrigger')
   dropdown!: DropdownComponent;
 
@@ -57,6 +58,10 @@ export class DropdownTriggerDirective {
 
   get el(): HTMLElement {
     return this.elRef.nativeElement;
+  }
+
+  ngOnDestroy() {
+    this.close();
   }
 
   @HostListener('document:click', ['$event'])
@@ -117,12 +122,12 @@ export class DropdownTriggerDirective {
   selector: '[zzDropdownCloseOnClick]',
 })
 export class DropdownCloseOnClickDirective {
+  constructor(private readonly dropdownTrigger: DropdownTriggerDirective) {}
+
   @HostListener('click')
   onClick() {
     this.dropdownTrigger.close();
   }
-
-  constructor(private readonly dropdownTrigger: DropdownTriggerDirective) {}
 }
 
 @NgModule({

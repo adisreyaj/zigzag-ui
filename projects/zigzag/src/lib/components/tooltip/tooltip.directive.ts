@@ -1,11 +1,19 @@
-import { Directive, ElementRef, HostListener, Inject, Input, NgModule } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  HostListener,
+  Inject,
+  Input,
+  NgModule,
+  OnDestroy,
+} from '@angular/core';
 import { computePosition, flip, offset, Placement, shift } from '@floating-ui/dom';
 import { CommonModule, DOCUMENT } from '@angular/common';
 
 @Directive({
   selector: '[zzTooltip]',
 })
-export class TooltipDirective {
+export class TooltipDirective implements OnDestroy {
   @Input()
   zzTooltip: string = '';
 
@@ -21,6 +29,10 @@ export class TooltipDirective {
 
   get el(): HTMLElement {
     return this.elRef.nativeElement;
+  }
+
+  ngOnDestroy() {
+    this.hideTooltip();
   }
 
   @HostListener('mouseenter')
