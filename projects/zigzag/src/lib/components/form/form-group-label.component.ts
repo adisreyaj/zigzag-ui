@@ -34,7 +34,6 @@ export class FormGroupLabelComponent {
 
   constructor(@Optional() public readonly formGroup: FormGroupComponent) {
     this.labelFor = this.formGroup?.id ?? '';
-    console.log({ lable: this.labelFor, req: this.required });
   }
 
   @Input()

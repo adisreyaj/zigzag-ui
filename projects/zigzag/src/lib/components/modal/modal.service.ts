@@ -37,7 +37,7 @@ export class ModalService {
           useValue: internalModalRef,
         },
       ],
-      parent: this.injector,
+      parent: options.injector ?? this.injector,
     });
     const modalSize = options.size ?? 'sm';
     const componentFactory = this.cfr.resolveComponentFactory(component);
@@ -106,6 +106,7 @@ export class InternalModalRef<T> extends ModalRef<T> {
 export interface ModalOptions<T> {
   data: T;
   size: ModalSize;
+  injector?: Injector;
 }
 
 export type ModalSize = 'sm' | 'md' | 'lg';
