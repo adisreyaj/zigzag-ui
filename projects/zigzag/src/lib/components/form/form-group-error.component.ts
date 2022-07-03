@@ -5,6 +5,7 @@ import { Nullable } from 'ts-toolbelt/out/Union/Nullable';
 @Component({
   selector: 'zz-form-group-error',
   template: ` <p>{{ error }}</p>`,
+  standalone: true,
 })
 export class FormGroupErrorComponent {
   @Input()
@@ -12,8 +13,8 @@ export class FormGroupErrorComponent {
 }
 
 @NgModule({
-  declarations: [FormGroupErrorComponent],
+  declarations: [],
   exports: [FormGroupErrorComponent],
-  imports: [CommonModule],
+  imports: [FormGroupErrorComponent, CommonModule],
 })
 export class FormGroupErrorModule {}

@@ -24,9 +24,12 @@ import { isNil } from 'lodash-es';
         <path
           fill="currentColor"
           d="m73.7 258.2 3.7-6.5c20.6-35.6 66.4-47.9 102.1-27.3l719.4 415.3c35.6 20.6 47.9 66.4 27.3 102.1l-3.7 6.5c-20.6 35.6-66.4 47.9-102.1 27.3L101.1 360.1c-35.6-20.4-47.8-66.4-27.4-101.9z"
-        /></svg
-    ></ng-container>
+        />
+      </svg>
+    </ng-container>
   </label>`,
+  standalone: true,
+  imports: [CommonModule],
 })
 export class FormGroupLabelComponent {
   isRequired = false;
@@ -54,8 +57,8 @@ export class FormGroupLabelComponent {
 }
 
 @NgModule({
-  declarations: [FormGroupLabelComponent],
+  declarations: [],
   exports: [FormGroupLabelComponent],
-  imports: [CommonModule],
+  imports: [FormGroupLabelComponent, CommonModule],
 })
 export class FormGroupLabelModule {}
