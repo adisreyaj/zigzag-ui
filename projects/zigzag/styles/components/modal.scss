@@ -9,7 +9,7 @@
     }
 
     @media screen and (max-width: 768px) {
-      width: 100%;
+      width: calc(100% - 2rem);
     }
 
     &.sm {
@@ -31,7 +31,7 @@
     }
 
     &-close {
-      @apply absolute top-0 right-0 mt-3 mr-3 cursor-pointer rounded-md p-1;
+      @apply fixed top-4 right-4 cursor-pointer rounded-md p-1;
       @apply hover:bg-slate-200;
       @apply focus:bg-slate-200 focus:ring-1 focus:ring-slate-300;
     }
