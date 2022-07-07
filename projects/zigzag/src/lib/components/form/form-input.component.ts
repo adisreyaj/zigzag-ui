@@ -37,6 +37,7 @@ import { Component, HostBinding, Inject, InjectionToken, Input, NgModule } from 
       }
     `,
   ],
+  standalone: true,
 })
 export class FormInputComponent {
   @Input()
@@ -53,8 +54,8 @@ export class FormInputComponent {
 export type InputVariant = 'outline' | 'fill';
 
 @NgModule({
-  declarations: [FormInputComponent],
-  imports: [],
+  declarations: [],
+  imports: [FormInputComponent],
   exports: [FormInputComponent],
 })
 export class FormInputModule {}

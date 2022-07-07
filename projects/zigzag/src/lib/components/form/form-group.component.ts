@@ -12,8 +12,8 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgControl, ValidationErrors } from '@angular/forms';
-import { FormGroupErrorModule } from './form-group-error.component';
-import { BehaviorSubject, map, tap } from 'rxjs';
+import { FormGroupErrorComponent, FormGroupErrorModule } from './form-group-error.component';
+import { BehaviorSubject, map } from 'rxjs';
 import { get, isNil } from 'lodash-es';
 import { Nullable } from 'ts-toolbelt/out/Union/Nullable';
 import { FormComponent } from './form.component';
@@ -33,6 +33,8 @@ import { FormComponent } from './form.component';
       }
     `,
   ],
+  standalone: true,
+  imports: [FormGroupErrorComponent, CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormGroupComponent implements AfterContentInit {
@@ -56,10 +58,9 @@ export class FormGroupComponent implements AfterContentInit {
     if (this.control?.valueChanges)
       this.control.statusChanges
         .pipe(
-          tap(console.log),
           map(() => this.ngControl?.control?.errors),
           map((errors: Nullable<ValidationErrors>) => {
-            if (errors) {
+            if (errors && this.form?.id && this.id) {
               const errorKeys: string[] = Object.keys(errors);
               if (!isNil(errors) && errorKeys.length > 0) {
                 const key = `${this.form.id}.${this.id}.${errorKeys[0]}`;
@@ -67,9 +68,6 @@ export class FormGroupComponent implements AfterContentInit {
               }
             }
             return '';
-          }),
-          tap((value) => {
-            console.log(value, this.control);
           })
         )
         .subscribe((value) => {
@@ -79,9 +77,8 @@ export class FormGroupComponent implements AfterContentInit {
 }
 
 @NgModule({
-  declarations: [FormGroupComponent],
   exports: [FormGroupComponent],
-  imports: [CommonModule, FormGroupErrorModule],
+  imports: [FormGroupComponent, CommonModule, FormGroupErrorModule],
 })
 export class FormGroupModule {
   static configure(errors: Record<string, unknown>): ModuleWithProviders<any> {
@@ -98,5 +95,9 @@ export class FormGroupModule {
 }
 
 export const FORM_ERRORS = new InjectionToken<Record<string, unknown>>(
-  'Form errors for the configured module'
+  'Form errors for the configured module',
+  {
+    providedIn: 'root',
+    factory: () => ({}),
+  }
 );
