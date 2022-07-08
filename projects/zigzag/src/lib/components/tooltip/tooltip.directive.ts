@@ -4,6 +4,7 @@ import { CommonModule, DOCUMENT } from '@angular/common';
 
 @Directive({
   selector: '[zzTooltip]',
+  standalone: true,
 })
 export class TooltipDirective {
   @Input()
@@ -93,8 +94,7 @@ export class TooltipDirective {
 }
 
 @NgModule({
-  declarations: [TooltipDirective],
-  imports: [CommonModule],
+  imports: [CommonModule, TooltipDirective],
   exports: [TooltipDirective],
 })
 export class TooltipModule {}

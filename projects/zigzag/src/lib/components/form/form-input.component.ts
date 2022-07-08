@@ -7,7 +7,7 @@ import { Component, HostBinding, Inject, InjectionToken, Input, NgModule } from 
     //language=SCSS
     `
       :host-context([type='text'], [type='email'], [type='number'], [type='url'], [type='password'], textarea) {
-        @apply focus:ring-primary border border-transparent focus:ring-1;
+        @apply border border-transparent focus:ring-1 focus:ring-primary;
         @apply p-2 outline-none;
         @apply focus:border-primary;
         transition: all 0.3s;
@@ -61,7 +61,7 @@ export type InputVariant = 'outline' | 'fill';
 export class FormInputModule {}
 
 export interface FormInputGlobalConfig {
-  rounded: 'sm' | 'md' | 'lg' | 'full';
+  rounded: 'sm' | 'md' | 'lg' | 'full' | 'none';
 }
 
 export const FORM_INPUT_CONFIG = new InjectionToken<FormInputGlobalConfig>(

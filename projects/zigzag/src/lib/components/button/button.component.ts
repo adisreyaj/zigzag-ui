@@ -50,7 +50,7 @@ export type ButtonVariant =
 export class ButtonModule {}
 
 export interface ButtonGlobalConfig {
-  rounded: 'sm' | 'md' | 'lg' | 'full';
+  rounded: 'sm' | 'md' | 'lg' | 'full' | 'none';
 }
 
 export const BUTTON_CONFIG = new InjectionToken<ButtonGlobalConfig>('Global Button Configuration', {
