@@ -6,7 +6,7 @@ import { Component, HostBinding, Inject, InjectionToken, Input, NgModule } from 
   styles: [
     //language=SCSS
     `
-      :host-context([type='text'], [type='email'], [type='number'], [type='url'], [type='password'], textarea) {
+      :host-context([type='text'], [type='search'], [type='email'], [type='number'], [type='url'], [type='password'], textarea) {
         @apply border border-transparent focus:ring-1 focus:ring-primary;
         @apply p-2 outline-none;
         @apply focus:border-primary;
