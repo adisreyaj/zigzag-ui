@@ -5,6 +5,7 @@ import {
   EmbeddedViewRef,
   Inject,
   Injectable,
+  InjectionToken,
   Injector,
   Type,
 } from '@angular/core';
@@ -19,7 +20,8 @@ export class ModalService {
     private readonly injector: Injector,
     private readonly appRef: ApplicationRef,
     private readonly cfr: ComponentFactoryResolver,
-    @Inject(DOCUMENT) private readonly document: Document
+    @Inject(DOCUMENT) private readonly document: Document,
+    @Inject(MODAL_CONFIG) private readonly config: ModalGlobalConfig
   ) {}
 
   open<ModalData extends unknown, AfterCloseData extends unknown>(
@@ -45,6 +47,7 @@ export class ModalService {
     this.appRef.attachView(componentRef.hostView);
     element = (componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
     element.classList.add(`zz-modal`);
+    element.setAttribute('data-rounded', this.config.rounded);
     setTimeout(() => {
       element.classList.add(`open`);
     }, 0);
@@ -73,6 +76,7 @@ export class ModalService {
   private getCloseButton() {
     const button = this.document.createElement('div');
     button.classList.add('zz-modal-close');
+    button.setAttribute('data-rounded', this.config.rounded);
     button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="m12 10.586 4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"/></svg>`;
     return button;
   }
@@ -110,3 +114,14 @@ export interface ModalOptions<T> {
 }
 
 export type ModalSize = 'sm' | 'md' | 'lg';
+
+export interface ModalGlobalConfig {
+  rounded: 'sm' | 'md' | 'lg' | 'none';
+}
+
+export const MODAL_CONFIG = new InjectionToken<ModalGlobalConfig>('Global Modal Configuration', {
+  providedIn: 'root',
+  factory: () => ({
+    rounded: 'md',
+  }),
+});
