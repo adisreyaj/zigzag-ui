@@ -8,7 +8,7 @@ import { CommonModule, DOCUMENT } from '@angular/common';
 })
 export class TooltipDirective {
   @Input()
-  zzTooltip: string = '';
+  zzTooltip: string | number = '';
 
   @Input()
   placement: Placement = 'top';
@@ -79,7 +79,7 @@ export class TooltipDirective {
   private createToolTip() {
     const tooltip = this.document.createElement('div');
     tooltip.classList.add('tooltip');
-    tooltip.innerHTML = this.zzTooltip;
+    tooltip.innerHTML = `${this.zzTooltip}`;
     tooltip.id = 'zz-tooltip';
     tooltip.style.display = 'none';
     this.tooltipRef = this.document.body.appendChild(tooltip);
