@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 })
 export class FormGroupErrorComponent {
   @Input()
-  public error?: string;
+  public error?: string | null;
 }
 
 @NgModule({
