@@ -4,19 +4,19 @@
     @apply translate-y-4 scale-75 overflow-y-auto border border-slate-100 bg-white opacity-0 shadow-2xl;
     max-height: 90vh;
 
-    &[data-rounded="sm"] {
+    &[data-rounded='sm'] {
       @apply rounded-sm;
     }
 
-    &[data-rounded="md"] {
+    &[data-rounded='md'] {
       @apply rounded-md;
     }
 
-    &[data-rounded="lg"] {
+    &[data-rounded='lg'] {
       @apply rounded-lg;
     }
 
-    &[data-rounded="none"] {
+    &[data-rounded='none'] {
       @apply rounded-none;
     }
 
@@ -50,20 +50,20 @@
       @apply fixed top-4 right-4 cursor-pointer p-1;
       @apply hover:bg-slate-200;
       @apply focus:bg-slate-200 focus:ring-1 focus:ring-slate-300;
-      
-      &[data-rounded="sm"] {
+
+      &[data-rounded='sm'] {
         @apply rounded-sm;
       }
 
-      &[data-rounded="md"] {
+      &[data-rounded='md'] {
         @apply rounded-md;
       }
 
-      &[data-rounded="lg"] {
+      &[data-rounded='lg'] {
         @apply rounded-lg;
       }
 
-      &[data-rounded="none"] {
+      &[data-rounded='none'] {
         @apply rounded-none;
       }
     }
