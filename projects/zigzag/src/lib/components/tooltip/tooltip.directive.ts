@@ -1,6 +1,6 @@
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { Directive, ElementRef, HostListener, Inject, Input, NgModule } from '@angular/core';
 import { computePosition, flip, offset, Placement, shift } from '@floating-ui/dom';
-import { CommonModule, DOCUMENT } from '@angular/common';
 
 @Directive({
   selector: '[zzTooltip]',
@@ -27,7 +27,7 @@ export class TooltipDirective {
   @HostListener('mouseenter')
   // @HostListener('focus')
   async onMouseEnter() {
-    await this.showTooltip();
+    if (this.zzTooltip !== '') await this.showTooltip();
   }
 
   @HostListener('mouseleave')
