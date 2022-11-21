@@ -10,9 +10,10 @@ import {
 
 @Component({
   selector: '[zzButton]',
-  template: ` <ng-content></ng-content> `,
+  template: ` <ng-content></ng-content>`,
   styleUrls: ['./button.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class ButtonComponent {
   @Input()
@@ -43,14 +44,13 @@ export type ButtonVariant =
   | 'outline';
 
 @NgModule({
-  declarations: [ButtonComponent],
-  imports: [],
+  imports: [ButtonComponent],
   exports: [ButtonComponent],
 })
 export class ButtonModule {}
 
 export interface ButtonGlobalConfig {
-  rounded: 'sm' | 'md' | 'lg' | 'full';
+  rounded: 'sm' | 'md' | 'lg' | 'full' | 'none';
 }
 
 export const BUTTON_CONFIG = new InjectionToken<ButtonGlobalConfig>('Global Button Configuration', {

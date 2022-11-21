@@ -1,9 +1,13 @@
 import {
+  ChangeDetectorRef,
   Component,
   Directive,
   ElementRef,
+  EmbeddedViewRef,
   HostBinding,
   HostListener,
+  Inject,
+  InjectionToken,
   Input,
   NgModule,
   OnDestroy,
@@ -17,32 +21,54 @@ import { computePosition, flip, offset, Placement, shift } from '@floating-ui/do
   selector: 'zz-dropdown',
   template: `
     <ng-template #dropdown>
-      <div class="dropdown absolute z-50 rounded-md border border-slate-200 bg-white p-2">
+      <div
+        [class]="
+          'dropdown absolute z-50 border border-slate-200 bg-white p-2 max-h-[300px] overflow-y-auto ' +
+          'rounded=' +
+          this.dropdownConfig.rounded +
+          ' ' +
+          this.defaultClasses
+        "
+        [style]="defaultStyles"
+      >
         <ul>
           <ng-content></ng-content>
         </ul>
       </div>
     </ng-template>
   `,
+  standalone: true,
 })
 export class DropdownComponent {
   @ViewChild('dropdown', { read: TemplateRef })
   public readonly dropdown!: TemplateRef<any>;
+
+  @Input('class')
+  defaultClasses: string = '';
+
+  @Input('style')
+  defaultStyles: string = '';
+
+  constructor(@Inject(DROPDOWN_CONFIG) public readonly dropdownConfig: DropdownGlobalConfig) {}
 }
 
 @Component({
   selector: '[zzDropdownItem]',
-  template: ` <ng-content></ng-content> `,
+  template: ` <ng-content></ng-content>`,
+  standalone: true,
 })
 export class DropdownItemComponent {
+  constructor(@Inject(DROPDOWN_CONFIG) private readonly dropdownConfig: DropdownGlobalConfig) {}
+
   @HostBinding('class')
   get classes() {
-    return 'hover:bg-slate-100 px-2 py-1 cursor-pointer rounded-md text-base border border-transparent hover:border-slate-200';
+    return `hover:bg-slate-100 px-2 py-1 cursor-pointer rounded-${this.dropdownConfig.rounded} text-base border border-transparent hover:border-slate-200`;
   }
 }
 
 @Directive({
   selector: '[zzDropdownTrigger]',
+  standalone: true,
 })
 export class DropdownTriggerDirective implements OnDestroy {
   @Input('zzDropdownTrigger')
@@ -51,10 +77,15 @@ export class DropdownTriggerDirective implements OnDestroy {
   @Input()
   placement: Placement = 'bottom-end';
 
-  dropdownEl: HTMLElement | null = null;
+  dropdownEl?: HTMLElement | null;
+  dropdownRef?: EmbeddedViewRef<HTMLDivElement>;
   isOpen = false;
 
-  constructor(private readonly vcr: ViewContainerRef, private readonly elRef: ElementRef<any>) {}
+  constructor(
+    private readonly vcr: ViewContainerRef,
+    private readonly elRef: ElementRef,
+    private readonly cd: ChangeDetectorRef
+  ) {}
 
   get el(): HTMLElement {
     return this.elRef.nativeElement;
@@ -77,42 +108,37 @@ export class DropdownTriggerDirective implements OnDestroy {
     this.dropdownEl?.remove();
     this.isOpen = false;
     this.dropdownEl = null;
+    this.dropdownRef?.destroy();
   };
 
   private async showDropdown() {
-    const clientRect = this.el.getBoundingClientRect();
     if (this.el) {
-      this.dropdownEl = this.vcr.createEmbeddedView(this.dropdown.dropdown).rootNodes[0];
-      if (!this.dropdownEl) {
+      this.dropdownRef = this.vcr.createEmbeddedView(this.dropdown.dropdown);
+      const elRef: HTMLElement = this.dropdownRef.rootNodes[0];
+      if (!elRef) {
         return;
       }
-      this.dropdownEl.style.minWidth = '8rem';
-      document.body.appendChild(this.dropdownEl);
-      const { x, y } = await computePosition(
-        {
-          getBoundingClientRect: () => {
-            return clientRect;
-          },
-        },
-        this.dropdownEl,
-        {
-          placement: this.placement,
-          middleware: [
-            flip(),
-            offset({
-              mainAxis: 10,
-            }),
-            shift({
-              padding: 10,
-            }),
-          ],
-        }
-      );
-      if (this.dropdownEl) {
-        this.dropdownEl.style.left = `${x}px`;
-        this.dropdownEl.style.top = `${y}px`;
-        this.dropdownEl.classList.add('open');
+      elRef.style.minWidth = '8rem';
+      document.body.appendChild(elRef);
+      this.dropdownRef.detectChanges();
+      const { x, y } = await computePosition(this.el, elRef, {
+        placement: this.placement,
+        middleware: [
+          flip(),
+          offset({
+            mainAxis: 10,
+          }),
+          shift({
+            padding: 10,
+          }),
+        ],
+      });
+      if (elRef) {
+        elRef.style.left = `${x}px`;
+        elRef.style.top = `${y}px`;
+        elRef.classList.add('open');
         this.isOpen = true;
+        this.dropdownEl = elRef;
       }
     }
   }
@@ -120,6 +146,7 @@ export class DropdownTriggerDirective implements OnDestroy {
 
 @Directive({
   selector: '[zzDropdownCloseOnClick]',
+  standalone: true,
 })
 export class DropdownCloseOnClickDirective {
   constructor(private readonly dropdownTrigger: DropdownTriggerDirective) {}
@@ -131,7 +158,7 @@ export class DropdownCloseOnClickDirective {
 }
 
 @NgModule({
-  declarations: [
+  imports: [
     DropdownComponent,
     DropdownItemComponent,
     DropdownTriggerDirective,
@@ -145,3 +172,24 @@ export class DropdownCloseOnClickDirective {
   ],
 })
 export class DropdownModule {}
+
+export const DROPDOWN_COMPONENTS = [
+  DropdownComponent,
+  DropdownItemComponent,
+  DropdownTriggerDirective,
+  DropdownCloseOnClickDirective,
+] as const;
+
+export interface DropdownGlobalConfig {
+  rounded: 'sm' | 'md' | 'lg' | 'full' | 'none';
+}
+
+export const DROPDOWN_CONFIG = new InjectionToken<DropdownGlobalConfig>(
+  'Global Dropdown Configuration',
+  {
+    providedIn: 'root',
+    factory: () => ({
+      rounded: 'md',
+    }),
+  }
+);

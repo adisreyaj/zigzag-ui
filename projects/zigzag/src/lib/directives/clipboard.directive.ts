@@ -3,6 +3,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 
 @Directive({
   selector: '[zzClipboard]',
+  standalone: true,
 })
 export class ClipboardDirective {
   @Input('zzClipboard') text!: string;
