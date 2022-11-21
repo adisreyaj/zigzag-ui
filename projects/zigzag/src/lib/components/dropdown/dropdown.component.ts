@@ -24,6 +24,7 @@ import { computePosition, flip, offset, Placement, shift } from '@floating-ui/do
       </div>
     </ng-template>
   `,
+  standalone: true,
 })
 export class DropdownComponent {
   @ViewChild('dropdown', { read: TemplateRef })
@@ -33,6 +34,7 @@ export class DropdownComponent {
 @Component({
   selector: '[zzDropdownItem]',
   template: ` <ng-content></ng-content> `,
+  standalone: true,
 })
 export class DropdownItemComponent {
   @HostBinding('class')
@@ -43,6 +45,7 @@ export class DropdownItemComponent {
 
 @Directive({
   selector: '[zzDropdownTrigger]',
+  standalone: true,
 })
 export class DropdownTriggerDirective implements OnDestroy {
   @Input('zzDropdownTrigger')
@@ -120,6 +123,7 @@ export class DropdownTriggerDirective implements OnDestroy {
 
 @Directive({
   selector: '[zzDropdownCloseOnClick]',
+  standalone: true,
 })
 export class DropdownCloseOnClickDirective {
   constructor(private readonly dropdownTrigger: DropdownTriggerDirective) {}

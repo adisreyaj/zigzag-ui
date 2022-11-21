@@ -34,6 +34,7 @@ import { FormComponent } from './form.component';
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class FormGroupComponent implements AfterContentInit {
   @Input()

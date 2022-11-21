@@ -10,9 +10,10 @@ import {
 
 @Component({
   selector: '[zzButton]',
-  template: ` <ng-content></ng-content> `,
+  template: ` <ng-content></ng-content>`,
   styleUrls: ['./button.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class ButtonComponent {
   @Input()

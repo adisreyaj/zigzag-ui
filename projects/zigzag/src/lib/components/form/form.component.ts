@@ -4,7 +4,8 @@ import { Nullable } from 'ts-toolbelt/out/Union/Nullable';
 
 @Component({
   selector: 'zz-form',
-  template: `<ng-content></ng-content>`,
+  template: ` <ng-content></ng-content>`,
+  standalone: true,
 })
 export class FormComponent {
   @Input()
