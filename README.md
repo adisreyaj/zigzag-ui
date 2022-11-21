@@ -1,27 +1,62 @@
 # Zigzag
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.3.
+## Getting Started
 
-## Development server
+### 1. Submodule setup
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+```sh
+git submodule add https://github.com/adisreyaj/zigzag.git
+```
 
-## Code scaffolding
+### 2. Install deps
+Install peer dependencies manually
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```sh
+npm i @floating-ui/dom
+npm install
+```
 
-## Build
+### 3. Include styles
+Include the style in the `angular.json` config.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```json
+{
+  "styles": [
+    "zigzag/projects/zigzag/styles/components/index.scss"
+  ]
+}
+```
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### 4. Update Tailwind config
 
-## Running end-to-end tests
+Update the tailwind config to also include code from zigzag.
+Also add the colors used by the components.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```js
+module.exports = {
+  content: [
+    ...
+    'zigzag/**/*.{ts,html}', //<-- add this
+  ],
+  theme: {
+    extend: {
+      colors: {
+        primary: 'var(--primary)',
+        'primary-transparent-10': 'var(--primary-transparent-10)',
+      },
+    },
+  },
+  plugins: [require('@tailwindcss/line-clamp')],
+};
+```
 
-## Further help
+### 5. Add CSS Variables
+Add required CSS Variables to the `styles.scss` file.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```
+:root {
+  --primary: hsl(207, 82%, 42%);
+  --primary-transparent-10: hsla(207, 82%, 42%, 10%);
+}
+```

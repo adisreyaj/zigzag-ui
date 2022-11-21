@@ -1,6 +1,6 @@
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { Directive, ElementRef, HostListener, Inject, Input, NgModule } from '@angular/core';
 import { computePosition, flip, offset, Placement, shift } from '@floating-ui/dom';
-import { CommonModule, DOCUMENT } from '@angular/common';
 
 @Directive({
   selector: '[zzTooltip]',
@@ -8,7 +8,7 @@ import { CommonModule, DOCUMENT } from '@angular/common';
 })
 export class TooltipDirective {
   @Input()
-  zzTooltip: string = '';
+  zzTooltip: string | number = '';
 
   @Input()
   placement: Placement = 'top';
@@ -27,7 +27,7 @@ export class TooltipDirective {
   @HostListener('mouseenter')
   // @HostListener('focus')
   async onMouseEnter() {
-    await this.showTooltip();
+    if (this.zzTooltip !== '') await this.showTooltip();
   }
 
   @HostListener('mouseleave')
@@ -79,7 +79,7 @@ export class TooltipDirective {
   private createToolTip() {
     const tooltip = this.document.createElement('div');
     tooltip.classList.add('tooltip');
-    tooltip.innerHTML = this.zzTooltip;
+    tooltip.innerHTML = `${this.zzTooltip}`;
     tooltip.id = 'zz-tooltip';
     tooltip.style.display = 'none';
     this.tooltipRef = this.document.body.appendChild(tooltip);
@@ -94,7 +94,7 @@ export class TooltipDirective {
 }
 
 @NgModule({
-  declarations: [TooltipDirective],
+  imports: [CommonModule, TooltipDirective],
   exports: [TooltipDirective],
 })
 export class TooltipModule {}

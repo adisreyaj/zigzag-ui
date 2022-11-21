@@ -1,8 +1,6 @@
 import { Component, Input, NgModule, Optional } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroupComponent } from './form-group.component';
-import { Nullable } from 'ts-toolbelt/out/Union/Nullable';
-import { isNil } from 'lodash-es';
 
 @Component({
   selector: 'zz-form-group-label',
@@ -29,6 +27,8 @@ import { isNil } from 'lodash-es';
       </svg>
     </ng-container>
   </label>`,
+  standalone: true,
+  imports: [CommonModule],
 })
 export class FormGroupLabelComponent {
   isRequired = false;
@@ -48,16 +48,16 @@ export class FormGroupLabelComponent {
   }
 
   @Input()
-  set for(value: Nullable<string>) {
-    if (!isNil(value)) {
+  set for(value: string) {
+    if (value != null) {
       this.labelFor = value;
     }
   }
 }
 
 @NgModule({
-  declarations: [FormGroupLabelComponent],
+  declarations: [],
   exports: [FormGroupLabelComponent],
-  imports: [CommonModule],
+  imports: [FormGroupLabelComponent, CommonModule],
 })
 export class FormGroupLabelModule {}

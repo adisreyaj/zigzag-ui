@@ -1,6 +1,5 @@
 import { Component, Input, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Nullable } from 'ts-toolbelt/out/Union/Nullable';
 
 @Component({
   selector: 'zz-form',
@@ -9,12 +8,12 @@ import { Nullable } from 'ts-toolbelt/out/Union/Nullable';
 })
 export class FormComponent {
   @Input()
-  public id: Nullable<string>;
+  public id?: string;
 }
 
 @NgModule({
-  declarations: [FormComponent],
+  declarations: [],
   exports: [FormComponent],
-  imports: [CommonModule],
+  imports: [FormComponent, CommonModule],
 })
 export class FormModule {}

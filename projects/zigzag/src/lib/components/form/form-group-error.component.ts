@@ -1,6 +1,5 @@
 import { Component, Input, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Nullable } from 'ts-toolbelt/out/Union/Nullable';
 
 @Component({
   selector: 'zz-form-group-error',
@@ -9,12 +8,12 @@ import { Nullable } from 'ts-toolbelt/out/Union/Nullable';
 })
 export class FormGroupErrorComponent {
   @Input()
-  public error: Nullable<string>;
+  public error?: string | null;
 }
 
 @NgModule({
-  declarations: [FormGroupErrorComponent],
+  declarations: [],
   exports: [FormGroupErrorComponent],
-  imports: [CommonModule],
+  imports: [FormGroupErrorComponent, CommonModule],
 })
 export class FormGroupErrorModule {}
