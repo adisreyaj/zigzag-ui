@@ -4,6 +4,7 @@ import { FormGroupComponent } from './form-group.component';
 
 @Component({
   selector: 'zz-form-group-label',
+  standalone: true,
   template: ` <label
     class="relative mb-1 flex items-center gap-1 text-sm font-medium text-slate-500"
     [for]="labelFor"

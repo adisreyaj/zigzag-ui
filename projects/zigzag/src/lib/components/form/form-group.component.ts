@@ -34,6 +34,7 @@ import { FormComponent } from './form.component';
   standalone: true,
   imports: [FormGroupErrorComponent, CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class FormGroupComponent implements AfterContentInit {
   @Input()
